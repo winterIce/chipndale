@@ -40,7 +40,7 @@
 			loftArr.push(box2d.createBox(800, 285, 5, 285, false, "ground"));
 			bulletArr = new Array();
 			bulletArr.push(box2d.createBox(300, 550, 20, 20, false, "woodbox"));
-			bulletArr.push(box2d.createBox(600, 550, 20, 20, false, "woodbox"));
+			bulletArr.push(box2d.createBox(500, 550, 20, 20, false, "woodbox"));
 			bulletArr.push(box2d.createBox(100, 425, 20, 20, false, "woodbox"));
 			bulletArr.push(box2d.createBox(100, 295, 20, 20, false, "woodbox"));
 			bulletArr.push(box2d.createBox(100, 165, 20, 20, false, "woodbox"));

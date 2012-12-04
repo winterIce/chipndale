@@ -61,7 +61,7 @@
 			body.CreateFixture(fixtureDef);
 			
 			fd = new b2FilterData();
-			fd.categoryBits = 2;
+			fd.categoryBits = 2;  //2,4,6
 			body.GetFixtureList().SetFilterData(fd);
 			
 			return body;
