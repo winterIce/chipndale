@@ -130,7 +130,7 @@
 				body.SetLinearVelocity(moveV);
 			}
 
-			if (ctrl.FIRE && readyFire && curState.transition==0) {
+			if (ctrl.FIRE && readyFire) {
 				readyFire = false;
 				if (!curState.lift) {
 					if (ctrl.RIGHT&&isTouchBulletLeftEdge()) {
@@ -149,7 +149,7 @@
 		
 		private function animation() {
 			if (curState.startTime!=0) {
-				if (getTimer() - curState.startTime >= 150) {
+				if (getTimer() - curState.startTime >= 200) {
 					curState.startTime = 0;
 					curState.transition = 0;
 				}
@@ -237,11 +237,12 @@
 		
 		
 		private function fire() {
+			curState = stateArr.stand;
 			curState.transition = 2;
 			curState.lift = false;
 			isLift = false;
 			curState.startTime = getTimer();
-		    mc.gotoAndPlay("fire");
+		    mc.gotoAndStop("fire");
             
 			chapter.fireBullet(this.dir);
 		}
@@ -250,7 +251,7 @@
 			curState.lift = true;
 			isLift = true;
 			curState.startTime = getTimer();
-			//mc.gotoAndPlay("down");
+			//mc.gotoAndStop("down");
 			
 			chapter.addBullet();
 		}

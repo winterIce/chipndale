@@ -12,7 +12,7 @@
 	
 	public class Bullet extends Sprite 
 	{
-		private var speed:uint=15;
+		private var speed:uint=10;
 		private var _state:String;
 		private var _dir:String;
 		private var chapter:ChapterBase;
@@ -26,7 +26,7 @@
 			this.pixelsPerMeter = chapter.pixelsPerMeter;
 			mc = new GameData.heroMcArray[1]() as MovieClip;
 			addChild(mc);
-			body = chapter.box2d.createBox(-20, -20, 20, 20, false,"bullet");
+			body = chapter.box2d.createBox(-50, -50, 20, 20, false,"bullet");
 			body.SetUserData(mc);
 			
 			addEventListener(Event.ENTER_FRAME, onenterframe);
