@@ -12,6 +12,7 @@
 	import winter.HeroState.*;
 	import winter.Data.GameData;
 	import winter.Chapter.*;
+	import winter.Bullet.Bullet;
 	import flash.utils.getTimer;
 	
 	public class Chip extends Sprite 
@@ -34,10 +35,8 @@
 		public var dir:String = "right";  //标记当前方向
 		private var isLift:Boolean = false;
 		
-		//子弹最好是抽象成一个类，时间有限，暂且耦合在Chip类下面
-		public var bullet:b2Body;
-		public var bulletState:String;
-		public var bulletDir:String;
+		public var bullet:b2Body; //接触到的静态bullet
+		
 		
 		public function Chip(chapter:ChapterBase) {
 			this.chapter = chapter;
@@ -215,24 +214,17 @@
 			isLift = false;
 			curState.startTime = getTimer();
 		    mc.gotoAndPlay("fire");
-			
-			bulletState = "fire";
-			bulletDir = dir;
-			bullet.SetType(b2Body.b2_dynamicBody);//一定要设为动态型
-			fd = new b2FilterData();
-			fd.maskBits = 4;
-			fd.categoryBits = 6;
-			bullet.GetFixtureList().SetFilterData(fd);//穿透静态物
-			bullet.SetPosition(new b2Vec2(body.GetPosition().x, body.GetPosition().y - 1.5));
+            
+			chapter.fireBullet(this.dir);
 		}
 		private function liftBullet() {
-			bullet.SetPosition(new b2Vec2( -10, -10));
-			bulletState = "lift";
 			curState.transition = 1;
 			curState.lift = true;
 			isLift = true;
 			curState.startTime = getTimer();
 			//mc.gotoAndPlay("down");
+			
+			chapter.addBullet();
 		}
 		
 		private function isTouchBulletLeftEdge() {

@@ -4,17 +4,19 @@
 	import Box2D.Common.Math.b2Vec2;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
+	import winter.Bullet.Bullet;
 	import winter.control.Control;
-	import winter.Hero.Chip;
 	import winter.Data.GameData;
 	import flash.events.Event;
+	import winter.Bullet.Bullet;
+	import winter.Hero.Chip;
 	
 	public class Chapter7 extends ChapterBase
 	{
-		private var chip:Chip;
 		private var bulletArr:Array;
 		private var ground:b2Body;
 		private var loftArr:Array;
+		private var curBullet:Bullet;
 		public function Chapter7(ctrl:Control) {
 			super(ctrl);
 			createBg();
@@ -59,31 +61,25 @@
 			}
 		}
 		
+		override public function addBullet() {
+			for (var i = 0; i < bulletArr.length; i++ ) {
+				if (chip.bullet == bulletArr[i]) {
+				    world.DestroyBody(bulletArr[i]);
+					removeChild(bulletArr[i].GetUserData());
+					bulletArr.splice(i, 1);
+				}
+			}
+			curBullet = new Bullet(this);
+			addChild(curBullet);
+			curBullet.lift();
+		}
+		
+		override public function fireBullet(d:String) {
+			curBullet.dir = d;
+			curBullet.fire();
+		}
+		
 		public function onenterframe(evt:Event) {
-			if (chip.bulletState=="lift") {
-				chip.bullet.GetUserData().x = chip.body.GetPosition().x*pixelsPerMeter;
-			    chip.bullet.GetUserData().y = chip.body.GetPosition().y*pixelsPerMeter-45;
-			    chip.bullet.GetUserData().rotation = chip.body.GetAngle() * 180 / Math.PI;
-			}
-			else if (chip.bulletState == "fire") {
-				if (!(chip.bullet.GetPosition().x * pixelsPerMeter >= 0-40 && chip.bullet.GetPosition().x * pixelsPerMeter <= 800+40 && chip.bullet.GetPosition().y * pixelsPerMeter >= 0-40 && chip.bullet.GetPosition().y * pixelsPerMeter <= 600+40)) {
-					//removeChild(chip.bullet.GetUserData());//一定要抽象出子弹类啊
-					world.DestroyBody(chip.bullet);
-					return ;
-				}
-				
-				chip.bullet.ApplyForce(new b2Vec2(0, -chip.bullet.GetMass() * 19.8), chip.bullet.GetWorldCenter());
-				if(chip.bulletDir=="right"){
-			        chip.bullet.SetLinearVelocity(new b2Vec2(15, 0));
-			    }
-				else {
-					chip.bullet.SetLinearVelocity(new b2Vec2(-15, 0));
-				}
-				chip.bullet.GetUserData().x = chip.bullet.GetPosition().x*pixelsPerMeter;
-			    chip.bullet.GetUserData().y = chip.bullet.GetPosition().y*pixelsPerMeter;
-			    chip.bullet.GetUserData().rotation = chip.bullet.GetAngle() * 180 / Math.PI;
-			}
-			
 			
 		}
 		
