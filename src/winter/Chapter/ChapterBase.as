@@ -6,6 +6,7 @@
 	import Box2D.Dynamics.b2World;
 	import winter.control.Control;
 	import winter.Hero.Chip;
+	import winter.Bullet.Bullet;
 	
 	public class ChapterBase extends Sprite
 	{
@@ -16,6 +17,7 @@
 		public var box2d:Box2d;   //chapter的世界
 		public var ctrl:Control;  //chapter的控制器
 		public var chip:Chip;
+		public var curBullet:Bullet;
 		public function ChapterBase(ctrl:Control) {
 		    this.ctrl  = ctrl;
 			initBox2d();

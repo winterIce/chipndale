@@ -22,7 +22,7 @@
 		public var mc:MovieClip;
 		public var curState:HeroState;
 		public var body:b2Body;
-		private var chapter:ChapterBase;
+		public var chapter:ChapterBase;
 		private var ctrl:Control;
 		private var moveV:b2Vec2;
 		private var pixelsPerMeter:uint;
@@ -33,7 +33,7 @@
 		
 		private var fd:b2FilterData;
 		public var dir:String = "right";  //标记当前方向
-		private var isLift:Boolean = false;
+		private var isLift:Boolean = false;  //标记当前是否举起木箱
 		
 		public var bullet:b2Body; //接触到的静态bullet
 		
@@ -83,6 +83,30 @@
 		}
 		
 		private function action() {
+			//高优先级处理下蹲
+			if (ctrl.DOWN) {
+				moveV = new b2Vec2(0, body.GetLinearVelocity().y);
+			    body.SetAwake(true);
+				body.SetLinearVelocity(moveV);
+				if (ctrl.LEFT) {
+					dir = "left";
+					curState.dir = dir;
+				}
+				else if(ctrl.RIGHT){
+					dir = "right";
+					curState.dir = dir;
+				}
+				
+				if (isLift) {
+					chapter.curBullet.downlift();
+				}
+				return ;
+			}
+			//举起木箱状态，需要重新设置木箱的lift()
+			if(isLift){
+			    chapter.curBullet.lift();
+			}
+			
 			if(ctrl.LEFT){
 			    moveV = new b2Vec2(-this.speedX,body.GetLinearVelocity().y);
 				body.SetAwake(true);
@@ -132,14 +156,31 @@
 				else return ;
 			}
 			
+			
+			//上升过程穿透静态物体
+			if (body.GetLinearVelocity().y < 0) {
+				fd = new b2FilterData();
+				fd.maskBits = 1;
+				body.GetFixtureList().SetFilterData(fd);
+			}
+			//下落过程接触物体
+			else {
+				fd = new b2FilterData();
+				fd.maskBits = 2;
+				body.GetFixtureList().SetFilterData(fd);
+			}
+			
+			//高优先级处理下蹲
+			if (ctrl.DOWN) {
+				curState = stateArr.down;
+				curState.dir = dir;
+				curState.lift = isLift;
+				curState.play();
+				return ;
+			}
+			
 				if (body.GetLinearVelocity().x == 0 && body.GetLinearVelocity().y == 0) {		
-					if (ctrl.DOWN) {
-						curState = stateArr.down;
-						curState.dir = dir;
-						curState.lift = isLift;
-						curState.play();
-						return ;
-					}
+					
 					//碰到静态物体的右面仍然要有向左走的动画
 					if ( ctrl.LEFT && !(curState is HeroWalk && curState.dir=="left") ) {
 						curState = stateArr.walk;
@@ -190,19 +231,6 @@
 					curState.dir = dir;
 					curState.lift = isLift;
 					curState.play();
-					
-					//上升过程穿透静态物体
-					if (body.GetLinearVelocity().y < 0) {
-						fd = new b2FilterData();
-				        fd.maskBits = 1;
-				        body.GetFixtureList().SetFilterData(fd);
-					}
-					//下落过程接触物体
-					else {
-						fd = new b2FilterData();
-				        fd.maskBits = 2;
-				        body.GetFixtureList().SetFilterData(fd);
-					}
 				}
 		}
 		

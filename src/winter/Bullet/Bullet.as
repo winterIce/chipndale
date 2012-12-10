@@ -16,9 +16,9 @@
 		private var _state:String;
 		private var _dir:String;
 		private var chapter:ChapterBase;
-		private var mc:MovieClip;
+		public var mc:MovieClip;
 		private var pixelsPerMeter;
-		private var body:b2Body;
+		public var body:b2Body;
 		private var fd:b2FilterData;
 		
 		public function Bullet(chapter:ChapterBase) {
@@ -43,6 +43,10 @@
 			fd.categoryBits = 6;
 			body.GetFixtureList().SetFilterData(fd);//穿透静态物
 			body.SetPosition(new b2Vec2(chapter.chip.body.GetPosition().x, chapter.chip.body.GetPosition().y - 1.5));
+		}
+		
+		public function downlift() {
+			_state = "down";
 		}
 		
 		public function set dir(d:String) {
@@ -74,6 +78,10 @@
 				mc.x = body.GetPosition().x*pixelsPerMeter;
 			    mc.y = body.GetPosition().y*pixelsPerMeter;
 			    mc.rotation = body.GetAngle() * 180 / Math.PI;
+			}
+			else if (_state == "down") {
+				mc.x = -50;
+			    mc.y = -50;
 			}
 		}
 	}

@@ -16,7 +16,6 @@
 		private var bulletArr:Array;
 		private var ground:b2Body;
 		private var loftArr:Array;
-		private var curBullet:Bullet;
 		public function Chapter7(ctrl:Control) {
 			super(ctrl);
 			createBg();
