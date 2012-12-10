@@ -1,6 +1,7 @@
 ﻿package winter.Chapter
 {
 	import flash.display.Sprite;
+	import winter.Boss.Boss;
 	import winter.Box2d.Box2d;
 	import flash.events.Event;
 	import Box2D.Dynamics.b2World;
@@ -18,6 +19,7 @@
 		public var ctrl:Control;  //chapter的控制器
 		public var chip:Chip;
 		public var curBullet:Bullet;
+		public var boss:Boss;
 		public function ChapterBase(ctrl:Control) {
 		    this.ctrl  = ctrl;
 			initBox2d();

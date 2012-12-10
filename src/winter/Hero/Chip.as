@@ -8,12 +8,13 @@
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.utils.getTimer;
 	import winter.control.Control;
 	import winter.HeroState.*;
 	import winter.Data.GameData;
 	import winter.Chapter.*;
 	import winter.Bullet.Bullet;
-	import flash.utils.getTimer;
+	import winter.Boss.Boss;
 	
 	public class Chip extends Sprite 
 	{

@@ -24,7 +24,8 @@
 			addChild(chip);
 			addEventListener(Event.ENTER_FRAME, onenterframe);
 			/*
-			new Boss();
+			boss = new Boss(this);
+			addChild(boss);
 			*/
 		}
 		
