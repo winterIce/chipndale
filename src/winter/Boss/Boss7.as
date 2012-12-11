@@ -53,37 +53,83 @@
 			mc.y = body.GetPosition().y * chapter.pixelsPerMeter;
 			setFd();
 			
-			if (isArrive() && now &&getTimer() - now > 5000) {
+			if (isArrive() && now && getTimer() - now > 5000) {
 				selectAction();
 				now = 0;
 			}
 		}
 		
 		
-		private functin isArrive() {
+		private function isArrive() {
 			var f:Boolean = false;
 			switch (targetPositionNum) {
 				case 0:
+				    if(mc.x<101&&mc.y<=132){
+				        f = true;
+						curDir = "right";
+						mc.scaleX = -1;
+						mc.gotoAndStop("stand");
+					}
 				    break;
 				case 1:
+				    if (mc.x < 101 && mc.y <= 262 && mc.y >= 260) {
+						f = true;
+						curDir = "right";
+						mc.scaleX = -1;
+						mc.gotoAndStop("stand");
+					}
 				    break;
 				case 2:
+				    if (mc.x < 101 && mc.y <= 392 && mc.y >= 391) {
+						f = true;
+						curDir = "right";
+						mc.scaleX = -1;
+						mc.gotoAndStop("stand");
+					}
 				    break;
 			    case 3:
-				    if (mc.x < 101 && mc.y > 530) {
+				    if (mc.x < 101 && mc.y >= 516) {
 						f = true;
+						curDir = "right";
+						mc.scaleX = -1;
+						mc.gotoAndStop("stand");
 					}
 				    break;
 				case 4:
+				    if (mc.x > 700 && mc.y >= 516) {
+						f = true;
+						curDir = "left";
+						mc.scaleX = 1;
+						mc.gotoAndStop("stand");
+					}
 				    break;
 				case 5:
+				    if (mc.x > 700 && mc.y <= 392 && mc.y >= 391) {
+						f = true;
+						curDir = "left";
+						mc.scaleX = 1;
+						mc.gotoAndStop("stand");
+					}
 				    break;
 				case 6:
+				    if (mc.x >700 && mc.y <= 262 && mc.y >= 260) {
+						f = true;
+						curDir = "left";
+						mc.scaleX = 1;
+						mc.gotoAndStop("stand");
+					}
 				    break;
 				case 7:
+				    if(mc.x>700&&mc.y<=132){
+				        f = true;
+						curDir = "left";
+						mc.scaleX = 1;
+						mc.gotoAndStop("stand");
+					}
 				    break;
 			}
-			if(f&&now==0){
+			if (f && now == 0) {
+				curState = "stand";
 			    curPositionNum = targetPositionNum;
 			    now = getTimer();
 			}
@@ -124,10 +170,13 @@
 				curState = "jump";
 				if (curPositionNum <= 3) {
 					curDir = "right";
+			        mc.scaleX = -1;
 				}
 				else {
 					curDir = "left";
+					mc.scaleX = 1;
 				}
+				mc.gotoAndStop("stand");
 			}
 			else if (actionArr[curPositionNum][t] == "down") {
 				//todo
@@ -136,9 +185,11 @@
 				curState = "attack";
 				if (curPositionNum <= 3) {
 					curDir = "right";
+					mc.scaleX = -1;
 				}
 				else {
 					curDir = "left";
+					mc.scaleX = 1;
 				}
 				mc.gotoAndPlay("attack");
 			}
