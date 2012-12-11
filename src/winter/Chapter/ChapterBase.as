@@ -1,7 +1,7 @@
 ﻿package winter.Chapter
 {
 	import flash.display.Sprite;
-	import winter.Boss.Boss;
+	import winter.Boss.*;
 	import winter.Box2d.Box2d;
 	import flash.events.Event;
 	import Box2D.Dynamics.b2World;

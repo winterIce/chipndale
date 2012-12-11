@@ -10,6 +10,7 @@
 	import flash.events.Event;
 	import winter.Bullet.Bullet;
 	import winter.Hero.Chip;
+	import winter.Boss.Boss7;
 	
 	public class Chapter7 extends ChapterBase
 	{
@@ -24,7 +25,7 @@
 			addChild(chip);
 			addEventListener(Event.ENTER_FRAME, onenterframe);
 			/*
-			boss = new Boss(this);
+			boss = new Boss7(this);
 			addChild(boss);
 			*/
 		}
@@ -40,6 +41,7 @@
 			loftArr.push(box2d.createBox(700, 190, 100, 5, false, "ground"));
 			loftArr.push(box2d.createBox(0, 285, 5, 285, false, "ground"));
 			loftArr.push(box2d.createBox(800, 285, 5, 285, false, "ground"));
+			/*
 			bulletArr = new Array();
 			bulletArr.push(box2d.createBox(300, 550, 20, 20, false, "woodbox"));
 			bulletArr.push(box2d.createBox(500, 550, 20, 20, false, "woodbox"));
@@ -49,6 +51,7 @@
 			bulletArr.push(box2d.createBox(700, 425, 20, 20, false, "woodbox"));
 			bulletArr.push(box2d.createBox(700, 295, 20, 20, false, "woodbox"));
 			bulletArr.push(box2d.createBox(700, 165, 20, 20, false, "woodbox"));
+		    */
 		}
 		
 		private function renderBg() {

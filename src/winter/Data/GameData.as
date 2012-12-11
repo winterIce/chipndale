@@ -9,8 +9,8 @@
 	{
 		public static const heroPath:String = "res/chip.swf";
 		public static const bossPath:String = "res/boss.swf";
-		public static const heroEleArray:Array = ["chipMc", "woodboxMc"];
-		public static var heroMcArray:Array=new Array();
+		public static const heroEleArray:Array = ["chipMc", "woodboxMc","bossMc"];
+		public static var heroMcArray:Array = new Array();
 		/*
 		public function GameData() {
 			
