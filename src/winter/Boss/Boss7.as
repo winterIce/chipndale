@@ -26,6 +26,7 @@
 		private var curPositionNum:uint = 4;
 		private var targetPositionNum:uint;
 		private var fd:b2FilterData;
+		private var now:uint=0;
 		
 		public function Boss7(chapter:ChapterBase) {
 			super(chapter);
@@ -52,8 +53,9 @@
 			mc.y = body.GetPosition().y * chapter.pixelsPerMeter;
 			setFd();
 			
-			if (getTimer()-now>5000&&isArrive()) {
+			if (isArrive() && now &&getTimer() - now > 5000) {
 				selectAction();
+				now = 0;
 			}
 		}
 		
@@ -81,9 +83,11 @@
 				case 7:
 				    break;
 			}
-			curPositionNum = targetPositionNum;
-			now = getTimer();
-			
+			if(f&&now==0){
+			    curPositionNum = targetPositionNum;
+			    now = getTimer();
+			}
+			return f;
 		}
 		private function selectAction() {
 			var a_action:uint = actionArr[curPositionNum].length;
