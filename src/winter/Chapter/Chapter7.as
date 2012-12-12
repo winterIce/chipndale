@@ -24,10 +24,8 @@
 			chip = new Chip(this);
 			addChild(chip);
 			addEventListener(Event.ENTER_FRAME, onenterframe);
-			
 			boss = new Boss7(this);
 			addChild(boss);
-			
 		}
 		
 		public function createBg() {

@@ -35,7 +35,6 @@
 		
 		public function Boss7(chapter:ChapterBase) {
 			super(chapter);
-			//this.chapter = chapter as Chapter7;
 		    mc = new GameData.heroMcArray[2]() as MovieClip;
 			addChild(mc);
 			body = chapter.box2d.createBox(550, 40, 30,40, true,"boss7");
@@ -267,12 +266,8 @@
 		
 		private function activeLoft(evt:TimerEvent) {
 			trace(this.idelLoft.GetUserData());
-			/*
-			for (var i = 0; i < chapter.loftArr.length;i++ ){
-			    this.chapter.loftArr[i].SetActive(true);
-			}
-			*/
 			this.idelLoft.SetActive(true);
+			this.idelLoft.SetAwake(true);
 			tick.removeEventListener(TimerEvent.TIMER_COMPLETE, activeLoft);
 			tick = null;
 		}
