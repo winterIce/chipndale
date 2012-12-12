@@ -11,8 +11,8 @@
 	
 	public class Boss extends Sprite 
 	{	
-		private var speedX:uint = 3;
-		private var speedY:uint = 15;
+		protected var speedX:uint = 3;
+		protected var speedY:uint = 15;
 		public var mc:MovieClip;
 		public var curState;
 		public var body:b2Body;

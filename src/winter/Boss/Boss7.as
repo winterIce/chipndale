@@ -1,5 +1,7 @@
 ﻿package winter.Boss
 {
+	import Box2D.Dynamics.b2Body;
+	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2FilterData;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -7,6 +9,8 @@
 	import winter.Data.GameData;
 	import flash.display.MovieClip;
 	import flash.utils.getTimer;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
 	
 	public class Boss7 extends Boss 
 	{
@@ -21,12 +25,13 @@
 								["down","attack"]
 		                        ];
 		
-		private var curState:String;
 		private var curDir:String;
 		private var curPositionNum:uint = 4;
 		private var targetPositionNum:uint;
 		private var fd:b2FilterData;
-		private var now:uint=0;
+		private var now:uint = 0;
+		private var tick:Timer;
+		private var idelLoft:b2Body;
 		
 		public function Boss7(chapter:ChapterBase) {
 			super(chapter);
@@ -35,7 +40,15 @@
 			body = chapter.box2d.createBox(550, 40, 40, 53, true,"boss7");
 			body.SetUserData(mc);
 			mc.gotoAndStop("stand");
+			init();
 			addEventListener(Event.ENTER_FRAME, onenterframe);
+		}
+		
+		private function init() {
+			curState = "walk";
+			curDir = "left";
+			curPositionNum = 4;
+			targetPositionNum = 3;
 		}
 		
 		public function onenterframe(evt:Event) {
@@ -163,6 +176,7 @@
 			else if (t == 2) {
 				targetPositionNum = curPositionNum;
 			}
+			
 			//jump,down,attack,walk
 			if (actionArr[curPositionNum][t] == "jump") {
 				body.SetAwake(true);
@@ -179,7 +193,17 @@
 				mc.gotoAndStop("stand");
 			}
 			else if (actionArr[curPositionNum][t] == "down") {
-				//todo
+				fall();
+				curState = "down";
+				if (curPositionNum <= 3) {
+					curDir = "right";
+			        mc.scaleX = -1;
+				}
+				else {
+					curDir = "left";
+					mc.scaleX = 1;
+				}
+				mc.gotoAndStop("stand");
 			}
 			else if (actionArr[curPositionNum][t] == "attack") {
 				curState = "attack";
@@ -220,6 +244,28 @@
 				fd.maskBits = 2;
 				body.GetFixtureList().SetFilterData(fd);
 			}
+		}
+		
+		
+		private function fall() {
+			var b:b2Body;
+			for (var a = body.GetContactList(); a; a = a.next) {
+				b = a.contact.GetFixtureB().GetBody();
+				if (b.GetUserData() is String && b.GetUserData().indexOf("loft")!=-1) {
+					idelLoft = b;
+					idelLoft.SetActive(false);//休眠可以穿透物体
+					tick = new Timer(200,1);
+					//tick.addEventListener(TimerEvent.TIMER, timerHandler);
+                    tick.addEventListener(TimerEvent.TIMER_COMPLETE, activeLoft);
+					tick.start();
+				}
+			}
+		}
+		
+		private function activeLoft(evt:TimerEvent) {
+			tick.removeEventListener(TimerEvent.TIMER_COMPLETE, activeLoft);
+			tick = null;
+			idelLoft.SetActive(true);
 		}
 	}
 	

@@ -24,26 +24,26 @@
 			chip = new Chip(this);
 			addChild(chip);
 			addEventListener(Event.ENTER_FRAME, onenterframe);
-			/*
+			
 			boss = new Boss7(this);
 			addChild(boss);
-			*/
+			
 		}
 		
 		public function createBg() {
 			ground = box2d.createBox(400, 585, 400, 15, false, "ground");
 			loftArr = new Array();
-			loftArr.push(box2d.createBox(100, 450, 100, 5, false, "ground"));
-			loftArr.push(box2d.createBox(100, 320, 100, 5, false, "ground"));
-			loftArr.push(box2d.createBox(100, 190, 100, 5, false, "ground"));
-			loftArr.push(box2d.createBox(700, 450, 100, 5, false, "ground"));
-			loftArr.push(box2d.createBox(700, 320, 100, 5, false, "ground"));
-			loftArr.push(box2d.createBox(700, 190, 100, 5, false, "ground"));
-			loftArr.push(box2d.createBox(0, 285, 5, 285, false, "ground"));
-			loftArr.push(box2d.createBox(800, 285, 5, 285, false, "ground"));
+			loftArr.push(box2d.createBox(100, 450, 100, 5, false, "loft1"));
+			loftArr.push(box2d.createBox(100, 320, 100, 5, false, "loft2"));
+			loftArr.push(box2d.createBox(100, 190, 100, 5, false, "loft3"));
+			loftArr.push(box2d.createBox(700, 450, 100, 5, false, "loft4"));
+			loftArr.push(box2d.createBox(700, 320, 100, 5, false, "loft5"));
+			loftArr.push(box2d.createBox(700, 190, 100, 5, false, "loft6"));
+			loftArr.push(box2d.createBox(0, 285, 5, 285, false, "wall"));
+			loftArr.push(box2d.createBox(800, 285, 5, 285, false, "wall"));
 			
 			bulletArr = new Array();
-			
+			/*
 			bulletArr.push(box2d.createBox(300, 550, 20, 20, false, "woodbox"));
 			bulletArr.push(box2d.createBox(500, 550, 20, 20, false, "woodbox"));
 			bulletArr.push(box2d.createBox(100, 425, 20, 20, false, "woodbox"));
@@ -52,7 +52,7 @@
 			bulletArr.push(box2d.createBox(700, 425, 20, 20, false, "woodbox"));
 			bulletArr.push(box2d.createBox(700, 295, 20, 20, false, "woodbox"));
 			bulletArr.push(box2d.createBox(700, 165, 20, 20, false, "woodbox"));
-		    
+		    */
 		}
 		
 		private function renderBg() {

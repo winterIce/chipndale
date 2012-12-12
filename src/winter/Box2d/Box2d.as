@@ -59,7 +59,7 @@
 			fixtureDef.shape = box;
 			var body:b2Body = this.world.CreateBody(bodyDef);
 			body.CreateFixture(fixtureDef);
-			
+			body.SetUserData(userData);
 			fd = new b2FilterData();
 			fd.categoryBits = 2;  //2,4,6
 			body.GetFixtureList().SetFilterData(fd);

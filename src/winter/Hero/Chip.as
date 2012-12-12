@@ -3,12 +3,15 @@
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2FilterData;
+	import Box2D.Dynamics.b2World;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	import flash.events.TimerEvent;
 	import flash.utils.getTimer;
+	import flash.utils.Timer;
 	import winter.control.Control;
 	import winter.HeroState.*;
 	import winter.Data.GameData;
@@ -38,6 +41,9 @@
 		
 		public var bullet:b2Body; //接触到的静态bullet
 		
+		private var idelLoft:b2Body;
+		
+		private var tick:Timer;
 		
 		public function Chip(chapter:ChapterBase) {
 			this.chapter = chapter;
@@ -100,6 +106,11 @@
 				
 				if (isLift) {
 					chapter.curBullet.downlift();
+				}
+				
+				if (ctrl.JUMP&&readyJump) {
+					fall();
+					readyJump = false;
 				}
 				return ;
 			}
@@ -284,6 +295,27 @@
 					return a.contact.GetFixtureB().GetBody();
 				}
 			}
+		}
+		
+		private function fall() {
+			var b:b2Body;
+			for (var a = body.GetContactList(); a; a = a.next) {
+				b = a.contact.GetFixtureB().GetBody();
+				if (b.GetUserData() is String && b.GetUserData().indexOf("loft")!=-1) {
+					idelLoft = b;
+					idelLoft.SetActive(false);//休眠可以穿透物体
+					tick = new Timer(200,1);
+					//tick.addEventListener(TimerEvent.TIMER, timerHandler);
+                    tick.addEventListener(TimerEvent.TIMER_COMPLETE, activeLoft);
+					tick.start();
+				}
+			}
+		}
+		
+		private function activeLoft(evt:TimerEvent) {
+			tick.removeEventListener(TimerEvent.TIMER_COMPLETE, activeLoft);
+			tick = null;
+			idelLoft.SetActive(true);
 		}
 	}
 }
