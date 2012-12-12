@@ -67,7 +67,7 @@
 			mc.y = body.GetPosition().y * chapter.pixelsPerMeter;
 			setFd();
 			
-			if (isArrive() && now && getTimer() - now > 2500) {
+			if (isArrive() && now && getTimer() - now > 1000) {
 				selectAction();
 				now = 0;
 			}
@@ -253,8 +253,8 @@
 			for (var a = body.GetContactList(); a; a = a.next) {
 				b = a.contact.GetFixtureB().GetBody();
 				if (b.GetUserData() is String && b.GetUserData().indexOf("loft")!=-1) {
-					idelLoft = b;
-					idelLoft.SetActive(false);//休眠可以穿透物体
+					this.idelLoft = b;
+					this.idelLoft.SetActive(false);//休眠可以穿透物体
 					tick = new Timer(200,1);
 					//tick.addEventListener(TimerEvent.TIMER, timerHandler);
                     tick.addEventListener(TimerEvent.TIMER_COMPLETE, activeLoft);
@@ -264,9 +264,10 @@
 		}
 		
 		private function activeLoft(evt:TimerEvent) {
+			trace("active");
 			tick.removeEventListener(TimerEvent.TIMER_COMPLETE, activeLoft);
 			tick = null;
-			idelLoft.SetActive(true);
+			this.idelLoft.SetActive(true);
 		}
 	}
 	
