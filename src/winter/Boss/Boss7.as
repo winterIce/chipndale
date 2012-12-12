@@ -31,6 +31,7 @@
 		private var fd:b2FilterData;
 		private var now:uint = 0;
 		private var tick:Timer;
+		private var tick2:Timer;    //超时处理的tick，8s后到不了目的地重新选择selectAction
 		private var idelLoft:b2Body;
 		
 		public function Boss7(chapter:ChapterBase) {
@@ -142,6 +143,11 @@
 				}
 			    curPositionNum = targetPositionNum;
 			    now = getTimer();
+				//已经到达目的地，清楚超时处理的tick2
+				if(tick2){
+				    tick2.removeEventListener(TimerEvent.TIMER_COMPLETE, reSelectAction);
+			        tick2 = null;
+				}
 			}
 			return f;
 		}
@@ -174,9 +180,6 @@
 			}
 			else if (t == 2) {
 				targetPositionNum = curPositionNum;
-			}
-			else {
-			
 			}
 			
 			//up,down,attack,walk
@@ -232,6 +235,10 @@
 				}
 				mc.gotoAndPlay("walk");
 			}
+			//容错处理，防止到不了目的地卡死现象，定时8s，超时后还没有到达目的地重新selectAction
+			tick2 = new Timer(8000,1);
+            tick2.addEventListener(TimerEvent.TIMER_COMPLETE, reSelectAction);
+			tick2.start();
 		}
 		
 		
@@ -256,7 +263,8 @@
 				if (b.GetUserData() is String && b.GetUserData().indexOf("loft")!=-1) {
 					this.idelLoft = b;
 					this.idelLoft.SetActive(false);//休眠可以穿透物体
-					tick = new Timer(200,1);
+					this.idelLoft.SetAwake(false);
+					tick = new Timer(500,1);
 					//tick.addEventListener(TimerEvent.TIMER, timerHandler);
                     tick.addEventListener(TimerEvent.TIMER_COMPLETE, activeLoft);
 					tick.start();
@@ -267,9 +275,15 @@
 		private function activeLoft(evt:TimerEvent) {
 			trace(this.idelLoft.GetUserData());
 			this.idelLoft.SetActive(true);
-			this.idelLoft.SetAwake(true);
+			this.idelLoft.SetAwake(true);  //为什么总是有时抽风跳起之后碰loft???
 			tick.removeEventListener(TimerEvent.TIMER_COMPLETE, activeLoft);
 			tick = null;
+		}
+		
+		private function reSelectAction(evt:TimerEvent) {
+			selectAction();
+			tick2.removeEventListener(TimerEvent.TIMER_COMPLETE, reSelectAction);
+			tick2 = null;
 		}
 	}
 	
