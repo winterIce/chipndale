@@ -46,6 +46,7 @@
 		
 		private function init() {
 			curState = "walk";
+			mc.gotoAndPlay("walk");
 			curDir = "left";
 			curPositionNum = 4;
 			targetPositionNum = 3;
@@ -66,7 +67,7 @@
 			mc.y = body.GetPosition().y * chapter.pixelsPerMeter;
 			setFd();
 			
-			if (isArrive() && now && getTimer() - now > 5000) {
+			if (isArrive() && now && getTimer() - now > 2500) {
 				selectAction();
 				now = 0;
 			}
@@ -81,7 +82,6 @@
 				        f = true;
 						curDir = "right";
 						mc.scaleX = -1;
-						mc.gotoAndStop("stand");
 					}
 				    break;
 				case 1:
@@ -89,7 +89,6 @@
 						f = true;
 						curDir = "right";
 						mc.scaleX = -1;
-						mc.gotoAndStop("stand");
 					}
 				    break;
 				case 2:
@@ -97,7 +96,6 @@
 						f = true;
 						curDir = "right";
 						mc.scaleX = -1;
-						mc.gotoAndStop("stand");
 					}
 				    break;
 			    case 3:
@@ -105,7 +103,6 @@
 						f = true;
 						curDir = "right";
 						mc.scaleX = -1;
-						mc.gotoAndStop("stand");
 					}
 				    break;
 				case 4:
@@ -113,7 +110,6 @@
 						f = true;
 						curDir = "left";
 						mc.scaleX = 1;
-						mc.gotoAndStop("stand");
 					}
 				    break;
 				case 5:
@@ -121,7 +117,6 @@
 						f = true;
 						curDir = "left";
 						mc.scaleX = 1;
-						mc.gotoAndStop("stand");
 					}
 				    break;
 				case 6:
@@ -129,7 +124,6 @@
 						f = true;
 						curDir = "left";
 						mc.scaleX = 1;
-						mc.gotoAndStop("stand");
 					}
 				    break;
 				case 7:
@@ -137,12 +131,15 @@
 				        f = true;
 						curDir = "left";
 						mc.scaleX = 1;
-						mc.gotoAndStop("stand");
 					}
 				    break;
 			}
 			if (f && now == 0) {
 				curState = "stand";
+				//attack的动画不要停止
+				if (mc.currentLabel != "attack") {
+				    mc.gotoAndStop("stand");	
+				}
 			    curPositionNum = targetPositionNum;
 			    now = getTimer();
 			}
@@ -151,6 +148,7 @@
 		private function selectAction() {
 			var a_action:uint = actionArr[curPositionNum].length;
 			var t:uint = Math.floor(a_action * Math.random());
+			trace(curPositionNum+'----'+t);
 			if (t == 0) {
 				if (curPositionNum == 0) {
 					targetPositionNum = curPositionNum + 1;
@@ -176,12 +174,16 @@
 			else if (t == 2) {
 				targetPositionNum = curPositionNum;
 			}
+			else {
 			
-			//jump,down,attack,walk
-			if (actionArr[curPositionNum][t] == "jump") {
+			}
+			trace(actionArr[curPositionNum][t]);
+			//up,down,attack,walk
+			if (actionArr[curPositionNum][t] == "up") {
 				body.SetAwake(true);
 				body.SetLinearVelocity(new b2Vec2(body.GetLinearVelocity().x, -this.speedY));
-				curState = "jump";
+				setFd();  //这里跳起的一瞬间需要更改maskBits
+				curState = "up";
 				if (curPositionNum <= 3) {
 					curDir = "right";
 			        mc.scaleX = -1;
@@ -245,7 +247,6 @@
 				body.GetFixtureList().SetFilterData(fd);
 			}
 		}
-		
 		
 		private function fall() {
 			var b:b2Body;
