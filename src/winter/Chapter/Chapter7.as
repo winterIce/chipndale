@@ -16,7 +16,7 @@
 	{
 		private var bulletArr:Array;
 		private var ground:b2Body;
-		private var loftArr:Array;
+		public var loftArr:Array;
 		public function Chapter7(ctrl:Control) {
 			super(ctrl);
 			createBg();
@@ -33,12 +33,12 @@
 		public function createBg() {
 			ground = box2d.createBox(400, 585, 400, 15, false, "ground");
 			loftArr = new Array();
-			loftArr.push(box2d.createBox(100, 450, 100, 5, false, "loft1"));
-			loftArr.push(box2d.createBox(100, 320, 100, 5, false, "loft2"));
-			loftArr.push(box2d.createBox(100, 190, 100, 5, false, "loft3"));
-			loftArr.push(box2d.createBox(700, 450, 100, 5, false, "loft4"));
-			loftArr.push(box2d.createBox(700, 320, 100, 5, false, "loft5"));
-			loftArr.push(box2d.createBox(700, 190, 100, 5, false, "loft6"));
+			loftArr.push(box2d.createBox(100, 450, 100, 5, false, "loft0"));
+			loftArr.push(box2d.createBox(100, 320, 100, 5, false, "loft1"));
+			loftArr.push(box2d.createBox(100, 190, 100, 5, false, "loft2"));
+			loftArr.push(box2d.createBox(700, 450, 100, 5, false, "loft3"));
+			loftArr.push(box2d.createBox(700, 320, 100, 5, false, "loft4"));
+			loftArr.push(box2d.createBox(700, 190, 100, 5, false, "loft5"));
 			loftArr.push(box2d.createBox(0, 285, 5, 285, false, "wall"));
 			loftArr.push(box2d.createBox(800, 285, 5, 285, false, "wall"));
 			

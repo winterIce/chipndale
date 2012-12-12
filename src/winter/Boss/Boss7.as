@@ -35,9 +35,10 @@
 		
 		public function Boss7(chapter:ChapterBase) {
 			super(chapter);
+			//this.chapter = chapter as Chapter7;
 		    mc = new GameData.heroMcArray[2]() as MovieClip;
 			addChild(mc);
-			body = chapter.box2d.createBox(550, 40, 40, 53, true,"boss7");
+			body = chapter.box2d.createBox(550, 40, 30,40, true,"boss7");
 			body.SetUserData(mc);
 			mc.gotoAndStop("stand");
 			init();
@@ -78,56 +79,56 @@
 			var f:Boolean = false;
 			switch (targetPositionNum) {
 				case 0:
-				    if(mc.x<101&&mc.y<=132){
+				    if(mc.x<101&&mc.y<=145){
 				        f = true;
 						curDir = "right";
 						mc.scaleX = -1;
 					}
 				    break;
 				case 1:
-				    if (mc.x < 101 && mc.y <= 262 && mc.y >= 260) {
+				    if (mc.x < 101 && mc.y <= 275 && mc.y >= 273) {
 						f = true;
 						curDir = "right";
 						mc.scaleX = -1;
 					}
 				    break;
 				case 2:
-				    if (mc.x < 101 && mc.y <= 392 && mc.y >= 391) {
+				    if (mc.x < 101 && mc.y <= 405 && mc.y >= 404) {
 						f = true;
 						curDir = "right";
 						mc.scaleX = -1;
 					}
 				    break;
 			    case 3:
-				    if (mc.x < 101 && mc.y >= 516) {
+				    if (mc.x < 101 && mc.y >= 528) {
 						f = true;
 						curDir = "right";
 						mc.scaleX = -1;
 					}
 				    break;
 				case 4:
-				    if (mc.x > 700 && mc.y >= 516) {
+				    if (mc.x > 700 && mc.y >= 528) {
 						f = true;
 						curDir = "left";
 						mc.scaleX = 1;
 					}
 				    break;
 				case 5:
-				    if (mc.x > 700 && mc.y <= 392 && mc.y >= 391) {
+				    if (mc.x > 700 && mc.y <= 405 && mc.y >= 404) {
 						f = true;
 						curDir = "left";
 						mc.scaleX = 1;
 					}
 				    break;
 				case 6:
-				    if (mc.x >700 && mc.y <= 262 && mc.y >= 260) {
+				    if (mc.x >700 && mc.y <= 275 && mc.y >= 273) {
 						f = true;
 						curDir = "left";
 						mc.scaleX = 1;
 					}
 				    break;
 				case 7:
-				    if(mc.x>700&&mc.y<=132){
+				    if(mc.x>700&&mc.y<=145){
 				        f = true;
 						curDir = "left";
 						mc.scaleX = 1;
@@ -148,7 +149,8 @@
 		private function selectAction() {
 			var a_action:uint = actionArr[curPositionNum].length;
 			var t:uint = Math.floor(a_action * Math.random());
-			trace(curPositionNum+'----'+t);
+			//trace(curPositionNum+'----'+t);
+			//trace(actionArr[curPositionNum][t]);
 			if (t == 0) {
 				if (curPositionNum == 0) {
 					targetPositionNum = curPositionNum + 1;
@@ -177,7 +179,7 @@
 			else {
 			
 			}
-			trace(actionArr[curPositionNum][t]);
+			
 			//up,down,attack,walk
 			if (actionArr[curPositionNum][t] == "up") {
 				body.SetAwake(true);
@@ -264,10 +266,15 @@
 		}
 		
 		private function activeLoft(evt:TimerEvent) {
-			trace("active");
+			trace(this.idelLoft.GetUserData());
+			/*
+			for (var i = 0; i < chapter.loftArr.length;i++ ){
+			    this.chapter.loftArr[i].SetActive(true);
+			}
+			*/
+			this.idelLoft.SetActive(true);
 			tick.removeEventListener(TimerEvent.TIMER_COMPLETE, activeLoft);
 			tick = null;
-			this.idelLoft.SetActive(true);
 		}
 	}
 	
