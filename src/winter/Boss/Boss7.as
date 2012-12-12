@@ -273,7 +273,7 @@
 		}
 		
 		private function activeLoft(evt:TimerEvent) {
-			trace(this.idelLoft.GetUserData());
+			//trace(this.idelLoft.GetUserData());
 			this.idelLoft.SetActive(true);
 			this.idelLoft.SetAwake(true);  //为什么总是有时抽风跳起之后碰loft???
 			tick.removeEventListener(TimerEvent.TIMER_COMPLETE, activeLoft);
